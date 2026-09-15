@@ -1,24 +1,68 @@
 <!DOCTYPE html>
-<html lang="EN">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>问卷调查</title>
     <style>
-        * { margin: 0; padding: 0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body { width: 100%; height: 100%; overflow: hidden; }
-        iframe {
+
+        .form-frame {
             width: 100%;
             height: 100vh;
             border: 0;
             display: block;
         }
+        #formB { display: none; }
+
+        .next-btn {
+            position: fixed;
+            top: 18px;
+            right: 18px;
+            z-index: 9999;
+            padding: 8px 16px;
+            background-color: #1a73e8;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            line-height: 1.4;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+        }
+        .next-btn:hover { background-color: #1765cc; }
+        .next-btn:active { transform: translateY(1px); }
     </style>
 </head>
 <body>
-    <iframe
+    <iframe id="formA" class="form-frame"
+        src="https://docs.google.com/forms/d/e/1FAIpQLSd8_CmgAXqxJRVInI4nuO4qvmxq2t1cffqpvPvD9iWjWohfzQ/viewform?embedded=true"
+        frameborder="0" marginheight="0" marginwidth="0">正在加载…</iframe>
+
+    <iframe id="formB" class="form-frame"
         src="https://docs.google.com/forms/d/e/1FAIpQLSelNauGihZ9ekPEP1n3IuH0a_FZihm2vmA-Ozbx6xDGfVpcOA/viewform?embedded=true"
-        frameborder="0" marginheight="0" marginwidth="0">
-        正在加载…
-    </iframe>
+        frameborder="0" marginheight="0" marginwidth="0">正在加载…</iframe>
+
+    <button class="next-btn" onclick="nextPage()">Next Page</button>
+
+    <script>
+        const FORM_B_URL = "https://docs.google.com/forms/d/e/1FAIpQLSelNauGihZ9ekPEP1n3IuH0a_FZihm2vmA-Ozbx6xDGfVpcOA/viewform?embedded=true";
+        let step = 0; // 0 = 显示表单A，1 = 显示表单B
+
+        function nextPage() {
+            const formA = document.getElementById('formA');
+            const formB = document.getElementById('formB');
+            if (step === 0) {
+                // 第一次点击：从表单A切换到表单B
+                formA.style.display = 'none';
+                formB.style.display = 'block';
+                step = 1;
+            } else {
+                // 之后的每次点击：刷新表单B
+                formB.src = FORM_B_URL;
+            }
+        }
+    </script>
 </body>
 </html>
